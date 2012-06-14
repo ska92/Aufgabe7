@@ -1,18 +1,34 @@
 package aufgabe7.gui;
 
-public class Gui {
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JFrame;
+
+public class Gui extends JFrame implements ActionListener{
+private JFrame f;
+	
+	public Gui(String name) {
+		
+		
+		f = new JFrame(name);
+		f.setLayout(new GridLayout(3,1));
+		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		f.setSize(1000, 600);
+		f.setVisible(true);
+	}
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		System.out.println("Sag das es geht du doofes pogramm");
-		int a=0;
-		int b=5;
+		Gui gui= new Gui("Hallo");
 		
-		int c = a+b;
-		System.out.println("Das ist c: "+ c);
 		
+	}
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		// TODO Auto-generated method stub
 		
 	}
 
