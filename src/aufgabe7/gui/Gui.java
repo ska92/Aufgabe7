@@ -25,7 +25,7 @@ private JFrame f;
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		Gui gui= new Gui("Hallo");
+		Gui gui= new Gui("Pong");
 		
 		
 	}
