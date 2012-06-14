@@ -6,7 +6,6 @@ public class Gui {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		System.out.println("Sag das es geht du doofes pogramm");
 		int a=0;
 		int b=5;
