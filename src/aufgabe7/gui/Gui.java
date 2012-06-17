@@ -7,6 +7,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -14,6 +16,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
 public class Gui extends JFrame implements ActionListener, MouseListener{
@@ -24,7 +27,7 @@ private JMenu hp,hilfe;
 private JMenuItem oeffnen,beenden,help;
 
 	public Gui(String name) {
-		
+		JButton gamestart = new JButton("Start");
 		JLabel beschriftung_Sp1 = new JLabel( "Spieler 1: " );
 		JLabel beschriftung_Sp2 = new JLabel( "Spieler 2: " );
 		JTextField textfeld_Sp1 = new JTextField();
@@ -33,6 +36,11 @@ private JMenuItem oeffnen,beenden,help;
 		JComboBox combo_Sp2 = new JComboBox();
 		JPanel jp1 = new JPanel();
 		JPanel jp2 = new JPanel();
+		JPanel jp3 = new JPanel();
+		JRadioButton rb1 = new JRadioButton( "Level 1" );
+		JRadioButton rb2 = new JRadioButton( "Level 2" );
+		ButtonGroup g = new ButtonGroup();
+		
 		
 		start = new JFrame(name);
 		start.addMouseListener(this);
@@ -51,8 +59,17 @@ private JMenuItem oeffnen,beenden,help;
 		jp2.add(textfeld_Sp2);
 		jp2.add(combo_Sp2);
 		
+		
+		jp3.setLayout(new GridLayout(1,1));
+		
+		rb1.setSelected( true );
+		g.add( rb1 ); g.add( rb2 );
+		jp3.add(rb1);
+		jp3.add(rb2);
 		start.add(jp1);
 		start.add(jp2);
+		start.add(jp3);
+		start.add(gamestart);
 		menu();
 		start.setJMenuBar(menu);
 		start.setVisible(true);
