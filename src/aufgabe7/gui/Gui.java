@@ -66,6 +66,15 @@ private JMenuItem oeffnen,beenden,help;
 		g.add( rb1 ); g.add( rb2 );
 		jp3.add(rb1);
 		jp3.add(rb2);
+		
+		ActionListener al = new ActionListener() {
+		      public void actionPerformed( ActionEvent e ) {
+		        Frame frame = new Frame();
+		      }
+		    };
+		    gamestart.addActionListener( al );
+		
+		
 		start.add(jp1);
 		start.add(jp2);
 		start.add(jp3);
