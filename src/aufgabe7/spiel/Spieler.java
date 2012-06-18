@@ -1,5 +1,6 @@
 package aufgabe7.spiel;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -21,6 +22,9 @@ public class Spieler extends GameObject implements KeyListener{
 	//Bewegungsgeschwindigkeit des Spielers
 	private int movementSpeed = 2;
 	
+	//Spielerfarbe
+	private Color spielerfarbe = Color.WHITE;
+	
 	/**
 	 * Erzeugt einen neuen Spieler an der X & Y Koordinate mit der angegebenen Breite width und Höhe height
 	 * @param name Name des Spielers
@@ -32,6 +36,23 @@ public class Spieler extends GameObject implements KeyListener{
 	public Spieler(String name ,int x, int y, int width, int height){
 		super(x, y, width, height);
 		this.name = name;
+	}
+	
+	public void setFarbe(Color neueFarbe){
+		this.spielerfarbe = neueFarbe;
+	}
+	
+	
+	public boolean isMoving(){
+		return moveUp || moveDown;
+	}
+	
+	public boolean isMovinUp(){
+		return moveUp;
+	}
+	
+	public boolean isMovingDown(){
+		return moveDown;
 	}
 	
 	/**
@@ -107,6 +128,7 @@ public class Spieler extends GameObject implements KeyListener{
 	 * Zeichnet die Komponente auf das Graphics Objekt
 	 */
 	public void paintComponent(Graphics g) {
+		g.setColor(spielerfarbe);
 		g.fillRect(x, y, width, height);
 	}
 
@@ -162,6 +184,10 @@ public class Spieler extends GameObject implements KeyListener{
 	 */
 	public int getMovementSpeed() {
 		return movementSpeed;
+	}
+	
+	public void setName(String name){
+		this.name = name;
 	}
 
 }

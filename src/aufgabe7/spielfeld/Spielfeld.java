@@ -10,8 +10,10 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import aufgabe7.events.WindowFocusState;
+import aufgabe7.gui.Gui;
 import aufgabe7.spiel.Ball;
 import aufgabe7.spiel.GameObject;
+import aufgabe7.spiel.Hindernis;
 import aufgabe7.spiel.Rahmen;
 import aufgabe7.spiel.Spieler;
 
@@ -37,6 +39,8 @@ public class Spielfeld extends JFrame {
 		 * Wird aufgerufen, wenn das Spielfeld neu gezeichnet werden soll
 		 */
 		protected void paintComponent(Graphics g) {
+			g.setColor(Color.WHITE);
+			
 			//Ausgabe wenn das Spiel zuende ist.
 			if(spielende){
 				g.setFont(new Font(Font.SANS_SERIF, Font.BOLD + Font.ITALIC, 30));
@@ -55,6 +59,8 @@ public class Spielfeld extends JFrame {
 				go.paintComponent(g);
 			}
 			
+			
+			g.setColor(Color.WHITE);
 			// Spielstand
 			g.drawString(spieler1.getName() +":" + spieler1.getSpielstand(), 40, 340);
 			g.drawString(spieler2.getName() +":" + spieler2.getSpielstand(), 380, 340);
@@ -74,6 +80,8 @@ public class Spielfeld extends JFrame {
 
 	private Spieler spieler1, spieler2;
 	private Ball ball;
+	
+	private String level = "Leicht";
 	
 	private boolean spielende = false;
 
@@ -98,6 +106,10 @@ public class Spielfeld extends JFrame {
 		gameObjects.add(spieler1);
 		gameObjects.add(spieler2);
 		
+		
+		//Hindernis setzen
+		//gameObjects.add(new Hindernis(245, 10, 15, 120));
+		
 		//Key- & Mouselistener registrieren
 		addKeyListener(spieler1);
 		addKeyListener(spieler2);
@@ -117,7 +129,28 @@ public class Spielfeld extends JFrame {
 	}
 
 	public static void main(String args[]) {
-		new Spielfeld("Pong").startGame();
+		Gui gui = new Gui("Pong Menü");
+		
+		while(!gui.startSpiel){
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {}
+		}
+		
+		gui.setVisible(false);
+		
+		Spielfeld sp = new Spielfeld("Pong");
+		
+		sp.getSpieler1().setName(gui.getSpieler1Name());
+		sp.getSpieler2().setName(gui.getSpieler2Name());
+		
+		sp.getSpieler1().setFarbe(gui.getSpieler1Color());
+		sp.getSpieler2().setFarbe(gui.getSpieler2Color());
+		
+		sp.setLevel(gui.getLevel());
+		
+		
+		sp.startGame();
 	}
 	
 	/*
@@ -166,6 +199,18 @@ public class Spielfeld extends JFrame {
 			} catch (InterruptedException e) {}
 		}
 
+	}
+	
+	public Spieler getSpieler1(){
+		return spieler1;
+	}
+	
+	public Spieler getSpieler2(){
+		return spieler2;
+	}
+	
+	public void setLevel(String level){
+		this.level = level;
 	}
 
 }
