@@ -4,18 +4,13 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 
 public class Ball extends GameObject{
-
-	// Geschwindigkeit des Balls
-	private int movementSpeed;
 	
-	// Die aktuelle Richtung des Balles
-	private int aktuelleRichtung;
+	// Die Geschwindigkeit des Balles in X und Y-Richtung
+	private int movementX = 3, movementY = 0;
 	
-	public static final int NORDEN = 1;
-	public static final int WESTEN = 2;
-	public static final int SUEDEN = -1;
-	public static final int OSTEN = -2;
-
+	//Richtungskonstanten, die angeben in welcher Richtung das nächste Hindernis liegt
+	private static final int NORDEN = 1, WESTEN = 2, SUEDEN = 3, OSTEN = 4;
+	
 	/**
 	 * Erzeugt einen neuen Ball an den X & Y angegebenen Koordinaten mit der
 	 * Höhe height und Breite width,
@@ -31,8 +26,6 @@ public class Ball extends GameObject{
 	 */
 	public Ball(int x, int y, int width, int height) {
 		super(x, y, width, height);
-		movementSpeed = 2;
-		aktuelleRichtung = Ball.WESTEN;
 	}
 
 	/**
@@ -42,6 +35,9 @@ public class Ball extends GameObject{
 	 * 			mit die der Ball 'kollidieren' kann enthält.
 	 */
 	public void move(ArrayList<GameObject> gameObjects) {
+		//Die X- und Y-Koordinaten des nächsten Punktes
+		int nextX = x+movementX + width/2,
+			nextY = y+movementY + height/2;
 		
 		//Prüfen, ob ein Hinderniss im weg ist und die flugbahn des balles
 		//korrigiert werden muss
@@ -50,17 +46,38 @@ public class Ball extends GameObject{
 			if(go instanceof Ball)
 				continue;
 			
+			//Spieler können die Flugbahn des balles verändern
+			if(go instanceof Spieler){
+				
+			}
+			
+			//Hindernisse wie Rahmen
+			if( trifftObjekt( nextX, nextY, go )){
+				//Flugrichtung anpassen (invertieren?)
+				
+				
+				return;
+			}
+			
+			
 		}
 
 		//Wenn keine Hinderniss im weg, weiterfliegen
-		switch(aktuelleRichtung){
-		case Ball.OSTEN:
-			x += movementSpeed;
-			break;
-		case Ball.WESTEN:
-			x -= movementSpeed;
-			break;
+		x += movementX;
+		y += movementY;
+	}
+	
+	
+	
+	//Prüft, ob die nächste bewegung des Balles mit einem objekt kollidiert.
+	private boolean trifftObjekt(int x1, int y1, GameObject go){
+		
+		if( (x1 >= go.getX()) && (x1 <= go.getX() + go.getWidth()) ){
+			if( (y1 >= go.getY()) && (y1 <= go.getY() + go.getHeight()) ){
+				return true;
+			}
 		}
+		return false;
 	}
 	
 	/**
