@@ -81,15 +81,22 @@ public class Spielfeld extends JFrame implements Runnable {
 
 	}
 	
+	//Liste, die alle Objekte auf dem Spielfeld enthält
 	private ArrayList<GameObject> gameObjects;
 	
+	//Gibt an, ob das Spiel pausiert ist
 	private WindowFocusState windowState;
 
+	//Spieler 1 (links) und 2 (rechts)
 	private Spieler spieler1, spieler2;
+	
+	//Der Ball auf dem Spielfeld
 	private Ball ball;
 	
-	private Level level;
+	//Speichert das Aktuelle Level des Spieles
+	private Level level = Level.Leicht;
 	
+	//Gibt an, ob das Spiel zuende ist
 	private boolean spielende = false;
 
 	public Spielfeld(String s) {
@@ -179,6 +186,7 @@ public class Spielfeld extends JFrame implements Runnable {
 			//Auf Sieg prüfen
 			if(spieler1.getSpielstand() >= 10 || spieler2.getSpielstand() >= 10){
 				spielende = true;
+				repaint();
 				continue;
 			}
 		}
