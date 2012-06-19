@@ -10,14 +10,14 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import aufgabe7.events.WindowFocusState;
-import aufgabe7.gui.Gui;
 import aufgabe7.spiel.Ball;
 import aufgabe7.spiel.GameObject;
 import aufgabe7.spiel.Hindernis;
+import aufgabe7.spiel.Level;
 import aufgabe7.spiel.Rahmen;
 import aufgabe7.spiel.Spieler;
 
-public class Spielfeld extends JFrame {
+public class Spielfeld extends JFrame implements Runnable {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -50,25 +50,32 @@ public class Spielfeld extends JFrame {
 			//Font für die Textausgabe setzen
 			g.setFont(defaultFont);	
 			
-			
 			//Ball
 			ball.paintComponent(g);
 			
 			//Zeichnet alle Komponenten auf das Spielfeld
 			for(GameObject go : gameObjects){
 				go.paintComponent(g);
+				g.setColor(Color.WHITE);
 			}
 			
 			
-			g.setColor(Color.WHITE);
+			//Mittelfeld Linie
+			g.drawLine(250, 0, 250, 300);
+			
+			
 			// Spielstand
 			g.drawString(spieler1.getName() +":" + spieler1.getSpielstand(), 40, 340);
 			g.drawString(spieler2.getName() +":" + spieler2.getSpielstand(), 380, 340);
 			
 			//Ausgaben, wenn das Spiel pausiert ist
 			if(windowState.isPause()){
-				g.drawString("PAUSE", 210, 350);
+				g.drawString("PAUSE", 222, 330);
 			}
+			
+			//Level ausgeben
+			g.setFont(new Font(Font.SANS_SERIF,Font.PLAIN, 15));
+			g.drawString(level.getName(), 230, 370);
 			
 		}
 
@@ -81,7 +88,7 @@ public class Spielfeld extends JFrame {
 	private Spieler spieler1, spieler2;
 	private Ball ball;
 	
-	private String level = "Leicht";
+	private Level level;
 	
 	private boolean spielende = false;
 
@@ -106,10 +113,6 @@ public class Spielfeld extends JFrame {
 		gameObjects.add(spieler1);
 		gameObjects.add(spieler2);
 		
-		
-		//Hindernis setzen
-		//gameObjects.add(new Hindernis(245, 10, 15, 120));
-		
 		//Key- & Mouselistener registrieren
 		addKeyListener(spieler1);
 		addKeyListener(spieler2);
@@ -127,31 +130,6 @@ public class Spielfeld extends JFrame {
 		setResizable(false);
 		setVisible(true);
 	}
-
-	public static void main(String args[]) {
-		Gui gui = new Gui("Pong Menü");
-		
-		while(!gui.startSpiel){
-				try {
-					Thread.sleep(100);
-				} catch (InterruptedException e) {}
-		}
-		
-		gui.setVisible(false);
-		
-		Spielfeld sp = new Spielfeld("Pong");
-		
-		sp.getSpieler1().setName(gui.getSpieler1Name());
-		sp.getSpieler2().setName(gui.getSpieler2Name());
-		
-		sp.getSpieler1().setFarbe(gui.getSpieler1Color());
-		sp.getSpieler2().setFarbe(gui.getSpieler2Color());
-		
-		sp.setLevel(gui.getLevel());
-		
-		
-		sp.startGame();
-	}
 	
 	/*
 	 * Setzt Spieler und Ball auf ihre Startwerte zurück.
@@ -165,9 +143,20 @@ public class Spielfeld extends JFrame {
 
 	public void startGame() {
 		
+		//Hindernis setzen
+		if(level == Level.MITTEL){
+			gameObjects.add(new Hindernis(242, 10, 15, 120));
+		}
+		
+		
 		while (!spielende) {
 			//Spielfeld neuzeichnen
 			repaint();
+			
+			//Thread pausieren, um vernünftiges Spieltempo zu realisieren
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) { return; }
 			
 			//Abfragen, ob das Spiel pausiert ist.
 			if (windowState.isPause())
@@ -192,11 +181,6 @@ public class Spielfeld extends JFrame {
 				spielende = true;
 				continue;
 			}
-			
-			//Thread pausieren, um vernünftiges Spieltempo zu realisieren
-			try {
-				Thread.sleep(10);
-			} catch (InterruptedException e) {}
 		}
 
 	}
@@ -209,8 +193,14 @@ public class Spielfeld extends JFrame {
 		return spieler2;
 	}
 	
-	public void setLevel(String level){
+	public void setLevel(Level level){
 		this.level = level;
+	}
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		startGame();
 	}
 
 }

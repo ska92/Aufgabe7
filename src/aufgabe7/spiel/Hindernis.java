@@ -1,5 +1,6 @@
 package aufgabe7.spiel;
 
+import java.awt.Color;
 import java.awt.Graphics;
 
 public class Hindernis extends GameObject {
@@ -10,6 +11,7 @@ public class Hindernis extends GameObject {
 
 	@Override
 	public void paintComponent(Graphics g) {
+		g.setColor(Color.WHITE);
 		g.fillRect(x, y, width, height);
 	}
 

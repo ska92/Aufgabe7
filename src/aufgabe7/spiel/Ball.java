@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class Ball extends GameObject{
 	
 	// Die Geschwindigkeit des Balles in X und Y-Richtung
-	private int movementX = 4, movementY = 0;
+	private int movementX = 3, movementY = 0;
 	
 	//Bild
 	private Image img;
@@ -62,12 +62,13 @@ public class Ball extends GameObject{
 					Spieler s = (Spieler)go;
 					if( s.isMoving() ){
 						//Spieler bewegt sicht
-						movementY += 1;
+						if( s.isMovinUp())
+							movementY += 1;
+						else if ( s.isMovingDown() )
+							movementY -= 1;
 					}
-					
-					
+
 					movementX *= -1;
-					
 					
 					return;
 				}
@@ -163,12 +164,12 @@ public class Ball extends GameObject{
 	 */
 	public Spieler tor(Spieler spieler1, Spieler spieler2, int torLinks, int torRechts){
 		if(x <= torLinks){
-			resetMovement(-5);
+			resetMovement(-3);
 			return spieler2;
 		}
 			
 		if(x >= torRechts){
-			resetMovement(5);
+			resetMovement(3);
 			return spieler1;
 		}
 			

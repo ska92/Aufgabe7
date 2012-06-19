@@ -186,8 +186,16 @@ public class Spieler extends GameObject implements KeyListener{
 		return movementSpeed;
 	}
 	
+	/**
+	 * Setzt den Name des Spieler
+	 * @param name Den Namen des Spielers
+	 */
 	public void setName(String name){
-		this.name = name;
+		if(name == null || name.equals("")){
+			this.name = "Spieler";
+		} else {
+			this.name = name;
+		}
 	}
 
 }
