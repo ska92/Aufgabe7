@@ -16,6 +16,10 @@ import aufgabe7.spiel.Hindernis;
 import aufgabe7.spiel.Level;
 import aufgabe7.spiel.Rahmen;
 import aufgabe7.spiel.Spieler;
+import aufgabe7.spiel.SpielerAuswahl;
+import aufgabe7.strategie.EasyKI;
+import aufgabe7.strategie.HardKI;
+import aufgabe7.strategie.MiddleKI;
 
 public class Spielfeld extends JFrame implements Runnable {
 
@@ -59,7 +63,6 @@ public class Spielfeld extends JFrame implements Runnable {
 				g.setColor(Color.WHITE);
 			}
 			
-			
 			//Mittelfeld Linie
 			g.drawLine(250, 0, 250, 300);
 			
@@ -96,6 +99,9 @@ public class Spielfeld extends JFrame implements Runnable {
 	//Speichert das Aktuelle Level des Spieles
 	private Level level = Level.Leicht;
 	
+	//Art des Gegenspielers. Computer oder Menschlicher
+	private SpielerAuswahl spielerAuswahl = SpielerAuswahl.Mensch;
+	
 	//Gibt an, ob das Spiel zuende ist
 	private boolean spielende = false;
 
@@ -109,13 +115,15 @@ public class Spielfeld extends JFrame implements Runnable {
 		gameObjects.add(new Rahmen(0, 300, 500, 10));
 		
 		//Spieler & Ball initialisieren
+		ball = new Ball(250, 150, 10, 10);
+		
 		spieler1 = new Spieler("Spieler1", 5, 140, 10, 40);
 		spieler1.setMovementKeys(KeyEvent.VK_W, KeyEvent.VK_S);
 		
 		spieler2 = new Spieler("Spieler2", 480, 140, 10, 40);
 		spieler2.setMovementKeys(KeyEvent.VK_UP, KeyEvent.VK_DOWN);
 		
-		ball = new Ball(250, 150, 10, 10);
+		
 		
 		gameObjects.add(spieler1);
 		gameObjects.add(spieler2);
@@ -155,6 +163,26 @@ public class Spielfeld extends JFrame implements Runnable {
 			gameObjects.add(new Hindernis(242, 10, 15, 120));
 		}
 		
+		//Spieler-KI setzen
+		if(spielerAuswahl == SpielerAuswahl.Computer){
+			gameObjects.remove(spieler1);
+			Color temp = spieler1.getFarbe();
+			switch(level){
+			case Leicht:
+				this.spieler1 = new EasyKI("Computer", 5, 140, 10, 40, ball);
+				break;
+			case MITTEL:
+				this.spieler1 = new MiddleKI("Computer", 5, 140, 10, 40, ball, gameObjects);
+				break;
+			case SCHWER:
+				this.spieler1 = new HardKI("Computer", 5, 140, 10, 40, ball, gameObjects, spieler2);
+				break;
+			}
+			spieler1.setFarbe(temp);
+			gameObjects.add(spieler1);
+		}
+		
+		System.out.println(spieler1.getName());
 		
 		while (!spielende) {
 			//Spielfeld neuzeichnen
@@ -193,16 +221,36 @@ public class Spielfeld extends JFrame implements Runnable {
 
 	}
 	
+	/**
+	 * Gibt Spieler1 zurück
+	 * @return Spieler1
+	 */
 	public Spieler getSpieler1(){
 		return spieler1;
 	}
 	
+	/**
+	 * Gibt Spieler2 zurück
+	 * @return Spieler2
+	 */
 	public Spieler getSpieler2(){
 		return spieler2;
 	}
 	
+	/**
+	 * Setzt das Spiellevel 
+	 * @param level Das neue Levels
+	 */
 	public void setLevel(Level level){
 		this.level = level;
+	}
+	
+	/**
+	 * Setzt die Spieler Auswahl für Menschliche oder Computer gegner
+	 * @param sa Die neue SpielerAuswahl
+	 */
+	public void setSpielerAuswahl(SpielerAuswahl sa){
+		this.spielerAuswahl = sa;
 	}
 
 	@Override

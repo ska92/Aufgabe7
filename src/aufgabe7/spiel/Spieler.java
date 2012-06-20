@@ -38,19 +38,34 @@ public class Spieler extends GameObject implements KeyListener{
 		this.name = name;
 	}
 	
+	/**
+	 * Setzt die Farbe des Spieler
+	 * @param neueFarbe Farbe
+	 */
 	public void setFarbe(Color neueFarbe){
 		this.spielerfarbe = neueFarbe;
 	}
 	
-	
+	/**
+	 * Gibt zurück, ob sich der Spieler gerade bewegt
+	 * @return true, wenn sich der Spieler aktuell bewegt, sonst false
+	 */
 	public boolean isMoving(){
 		return moveUp || moveDown;
 	}
 	
+	/**
+	 * Gibt zurück, ob sich der Spieler nach oben bewegt
+	 * @return true, wenn sich der Spieler nach oben bewegt, sonst false.
+	 */
 	public boolean isMovinUp(){
 		return moveUp;
 	}
 	
+	/**
+	 * Gibt zurück, ob sich der Spieler nach unten bewegt
+	 * @return true, wenn sich der Spieler nach unten bewegt, sonst false.
+	 */
 	public boolean isMovingDown(){
 		return moveDown;
 	}
@@ -196,6 +211,14 @@ public class Spieler extends GameObject implements KeyListener{
 		} else {
 			this.name = name;
 		}
+	}
+	
+	/**
+	 * Gibt die Farbe des Spielers zurück
+	 * @return Farbe
+	 */
+	public Color getFarbe(){
+		return spielerfarbe;
 	}
 
 }

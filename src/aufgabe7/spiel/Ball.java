@@ -143,7 +143,7 @@ public class Ball extends GameObject{
 	}
 	
 	//Prüft, ob die nächste bewegung des Balles mit einem objekt kollidiert.
-	private boolean trifftObjekt(int x1, int y1, GameObject go){
+	public boolean trifftObjekt(int x1, int y1, GameObject go){
 		
 		if( (x1 >= go.getX()) && (x1 <= go.getX() + go.getWidth()) ){
 			if( (y1 >= go.getY()) && (y1 <= go.getY() + go.getHeight()) ){
@@ -194,6 +194,22 @@ public class Ball extends GameObject{
 		movementY = 0;
 	}
 
+	
+	public int getXMovement(){
+		return movementX;
+	}
+	
+	public int getYMovement(){
+		return movementY;
+	}
+	
+	public void changeXMovement(int movementchange){
+		movementX += movementchange;
+	}
+	
+	public void changeYMovement(int movementchange){
+		movementY += movementchange;
+	}
 
 
 }
